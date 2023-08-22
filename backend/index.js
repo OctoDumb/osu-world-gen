@@ -1,9 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const Downloader = require("./downloader");
 
 const dl = new Downloader();
 
 const app = express();
+
+app.use(cors());
 
 app.get('/map/:id', async (req, res) => {
   let map = await dl.get(req.params.id);

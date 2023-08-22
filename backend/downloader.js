@@ -2,26 +2,33 @@ const { default: axios } = require("axios");
 const fs = require("fs");
 const path = require("path");
 
-const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 module.exports = class Downloader {
   constructor() {
     if(!fs.existsSync("./cache")) {
       fs.mkdirSync("./cache");
     }
-    
+
     this.queue = [];
 
     this.processQueue();
   }
 
   async processQueue() {
-    if(this.queue.length) {
-      let id = this.queue.shift();
-      
-      let { data } = await axios.get(`https://nominatim.openstreetmap.org/details?osmtype=${id[0].toUpperCase()}&osmid=${id.slice(1)}&polygon_geojson=1&format=json`);
+    try {
+      if (this.queue.length) {
+        const id = this.queue.shift();
+        const [first, ...other] = id;
+        const osmType = first.toUpperCase();
+        const osmId = other.join("");
 
-      fs.writeFileSync(path.join("./cache", `${id}.json`), JSON.stringify(data));
+        const url = `https://nominatim.openstreetmap.org/details?osmtype=${osmType}&osmid=${osmId}&polygon_geojson=1&format=json`;
+        const { data } = await axios.get(url);
+
+        fs.writeFileSync(path.join("./cache", `${id}.json`), JSON.stringify(data));
+      }
+    } catch (e) {
     }
 
     setTimeout(() => this.processQueue(), 1000);

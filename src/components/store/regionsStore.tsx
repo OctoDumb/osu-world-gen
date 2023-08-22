@@ -3,7 +3,7 @@ import { create } from "zustand";
 export type RegionItem = {
   id: string;
   loading: boolean;
-  data: any;
+  data?: any;
 };
 
 type RegionsStore = {
@@ -20,7 +20,6 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
     const newElement = {
       id: "",
       loading: false,
-      data: {},
     };
 
     set({ data: [...data, newElement] });
