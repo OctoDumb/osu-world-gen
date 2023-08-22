@@ -35,20 +35,20 @@ const Map = () => {
     }
 
     // TODO: add working GEOJSON
-    // return (
-    //   <GeoJson
-    //     key={`region-${index}-${item.id}`}
-    //     data={item.data}
-    //     style={(f) => ({
-    //       fillColor: "#2D3748",
-    //       weight: 2,
-    //       opacity: 0.3,
-    //       color: "white",
-    //       dashArray: "3",
-    //       fillOpacity: 0.23,
-    //     })}
-    //   />
-    // );
+    return (
+      <GeoJson
+        key={`region-${index}-${item.id}`}
+        data={item.data}
+        style={(f) => ({
+          fillColor: "#2D3748",
+          weight: 2,
+          opacity: 0.5,
+          color: "white",
+          dashArray: "1",
+          fillOpacity: 0.8,
+        })}
+      />
+    );
 
     // TODO: remove after upper todo
     return null;

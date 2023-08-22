@@ -9,6 +9,7 @@ export type RegionItem = {
 type RegionsStore = {
   data: RegionItem[];
   addEmpty: () => void;
+  addBulk: (ids: string[]) => void;
   removeByIndex: (index: number) => void;
   updateAtIndex: (index: number, updateData: Partial<RegionItem>) => void;
 };
@@ -23,6 +24,14 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
     };
 
     set({ data: [...data, newElement] });
+  },
+  addBulk: (ids: string[]) => {
+    const { data } = get();
+    const newElements = ids.map(id => ({
+      id, loading: false
+    }));
+
+    set({ data: [...data, ...newElements] });
   },
   removeByIndex: (index) => {
     const { data } = get();

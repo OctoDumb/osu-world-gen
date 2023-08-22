@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import styles from "./index.module.scss";
 import "./index.scss";
 import RegionsDrawer from "@components/RegionsDrawer";
+import RegionInputModal from "@components/RegionInput";
 
 const App = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -20,6 +21,7 @@ const App = () => {
       </Button>
       <Map/>
       <RegionsDrawer isOpen={isOpen} onClose={onClose} />
+      <RegionInputModal />
     </ChakraProvider>
   );
 };

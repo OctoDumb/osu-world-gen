@@ -24,8 +24,14 @@ const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
   const fetchMap = async () => {
     try {
       updateAtIndex(index, { loading: true });
-      const response = await fetch(`http://localhost:7890/map/${item.id}`);
-      const data = await response.json();
+      const response = await fetch(`/map/${item.id}`);
+      const raw = await response.json();
+
+      const data = {
+        type: "Feature",
+        geometry: raw.geometry,
+        properties: { id: item.id },
+      };
 
       updateAtIndex(index, { data });
     } catch (e) {
