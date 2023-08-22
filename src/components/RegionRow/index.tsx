@@ -1,20 +1,22 @@
 import React, { ChangeEvent, FC } from "react";
 import { Button, HStack, Input } from "@chakra-ui/react";
-import { useRegionsStore } from "@components/store";
+import { RegionItem, useRegionsStore } from "@components/store";
 import { shallow } from "zustand/shallow";
 import styles from "./index.module.scss";
 
 export type RegionRowProps = {
   index: number;
+  item: RegionItem;
 };
 
-const RegionRow: FC<RegionRowProps> = ({ index }) => {
+const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
   const [removeByIndex, updateAtIndex] = useRegionsStore(
     (state) => [state.removeByIndex, state.updateAtIndex],
     shallow
   );
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("on change", item)
     updateAtIndex(index, {
       id: e.target.value,
     });
@@ -26,6 +28,7 @@ const RegionRow: FC<RegionRowProps> = ({ index }) => {
         type={"text"}
         placeholder={"Region ID"}
         onChange={onChange}
+        value={item.id}
       />
       <Button
         colorScheme={"red"}

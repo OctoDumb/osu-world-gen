@@ -1,7 +1,8 @@
 import { create } from "zustand";
 
-type RegionItem = {
+export type RegionItem = {
   id: string;
+  loading: boolean;
   data: any;
 };
 
@@ -18,6 +19,7 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
     const { data } = get();
     const newElement = {
       id: "",
+      loading: false,
       data: {},
     };
 
@@ -30,12 +32,13 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
   },
   updateAtIndex: (index, updateData) => {
     const { data } = get();
+    const newData = [...data];
     const updatedElement: RegionItem = {
       ...data[index],
       ...updateData,
     };
 
-    data[index] = updatedElement;
-    set({ data });
+    newData[index] = updatedElement;
+    set({ data: newData });
   },
 }));

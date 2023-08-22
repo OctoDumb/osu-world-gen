@@ -26,10 +26,9 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
     shallow
   );
 
-  const renderRegions = () => {
-    console.log(data, "data")
-    return data.map((item, i) => <RegionRow index={i} />)
-  };
+  const renderRegions = () => data.map((item, i) => (
+    <RegionRow index={i} item={item}/>
+  ));
 
   return (
     <Drawer
