@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, memo, useRef } from "react";
 import {
   GeoJSON as GeoJson,
   MapContainer,
@@ -7,8 +7,9 @@ import {
 } from "react-leaflet";
 import { LatLng, LatLngBounds, svg } from "leaflet";
 import styles from "./index.module.scss";
-import { useRegionsStore } from "@components/store";
+import { RegionItem, useRegionsStore } from "@components/store";
 import { shallow } from "zustand/shallow";
+import { useHoverStore } from "@components/store/hoverStore";
 
 const maxBounds = new LatLngBounds(
   new LatLng(90, -192),
@@ -21,34 +22,60 @@ const MapInner = () => {
   return null;
 };
 
+type RegionProps = { item: RegionItem };
+
+const Region: FC<RegionProps> = memo(({ item }) => {
+  const ref = useRef<any>();
+
+  const setContent = useHoverStore((state) => state.setContent);
+
+  if(!item.data)
+    return null;
+
+  return (
+    <GeoJson
+      ref={ref}
+      key={`geojson-${item.id}`}
+      data={item.data}
+      style={(_) => ({
+        fillColor: "#4FC0FF",
+        weight: 2,
+        opacity: 0.5,
+        color: "white",
+        dashArray: "1",
+        fillOpacity: 0.2,
+      })}
+      onEachFeature={(_, l) => {
+        l.on({
+          mouseover: (e) => {
+            e.target.setStyle({
+              weight: 2,
+              dashArray: "",
+              fillOpacity: 0.7
+            });
+            e.target.bringToFront();
+            setContent(item.id);
+          },
+          mouseout: (e) => {
+            ref.current!.resetStyle(e.target);
+            setContent("");
+          },
+          click: () => {
+            console.log(item.data.properties.names);
+          },
+        });
+      }}
+    />
+  );
+});
+
 const Map = () => {
   const [regions] = useRegionsStore(
     (state) => [state.data],
     shallow
   );
 
-  console.log(regions, "regions");
-
-  const renderGeoJsons = () => regions.map((item, index) => {
-    if (!item.data) {
-      return null;
-    }
-
-    return (
-      <GeoJson
-        key={`region-${index}-${item.id}`}
-        data={item.data}
-        style={(f) => ({
-          fillColor: "#2D3748",
-          weight: 2,
-          opacity: 0.5,
-          color: "white",
-          dashArray: "1",
-          fillOpacity: 0.8,
-        })}
-      />
-    );
-  }).filter(Boolean);
+  const renderGeoJsons = () => regions.map((item, index) => (<Region key={`region-${item.id}`} item={item} />));
 
   return (
     <MapContainer

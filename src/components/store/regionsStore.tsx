@@ -82,7 +82,7 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
       const data = {
         type: "Feature",
         geometry: raw.geometry,
-        properties: { id: currentId },
+        properties: { id: currentId, names: raw.names },
       };
 
       updateAtIndex(index, { data });

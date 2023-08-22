@@ -2,9 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
+  "bin": "build/index.js",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "build": "ncc build index.js -o build && pkg ."
   },
   "keywords": [],
   "author": "",
@@ -13,5 +15,18 @@
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.18.2"
+  },
+  "pkg": {
+    "scripts": "build/index.js",
+    "assets": [ "dist/**/*" ],
+    "targets": [
+      "node16-win"
+    ],
+    "outputPath": "build",
+    "compress": "Brotli"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.36.1",
+    "pkg": "^5.8.1"
   }
 }

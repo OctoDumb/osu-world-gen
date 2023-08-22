@@ -32,7 +32,7 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
   const toggleInput = useModalStore((state) => state.toggleInput);
 
   const renderRegions = () => data.map((item, i) => (
-    <RegionRow index={i} item={item}/>
+    <RegionRow key={`input-${i}`} index={i} item={item}/>
   ));
 
   const copy = () => {
@@ -44,8 +44,6 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
       isClosable: true,
     })
   };
-
-  const input = () => {};
 
   return (
     <Drawer

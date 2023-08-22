@@ -26,8 +26,8 @@ const RegionInputModal = () => {
   return (
     <Modal isOpen={isOpen} onClose={toggle} size={"2xl"}>
       <ModalOverlay />
-      <ModalCloseButton />
       <ModalContent>
+        <ModalCloseButton />
         <ModalHeader>Bulk add regions</ModalHeader>
         <ModalBody>
           <Text fontSize={14} mb={3}>IDs should be separated by new lines or commas (,)</Text>
