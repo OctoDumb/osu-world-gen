@@ -54,7 +54,7 @@ const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
         isLoading={item.loading}
         onClick={fetchMap}
       >
-        fetch
+        {!item.data ? "fetch" : "refetch"}
       </Button>
       <Button
         colorScheme={"red"}
