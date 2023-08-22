@@ -18,7 +18,7 @@ module.exports = class Downloader {
   async processQueue() {
     try {
       if (this.queue.length) {
-        const id = this.queue.shift();
+        const id = this.queue[0];
         const [first, ...other] = id;
         const osmType = first.toUpperCase();
         const osmId = other.join("");
@@ -29,6 +29,10 @@ module.exports = class Downloader {
         fs.writeFileSync(path.join("./cache", `${id}.json`), JSON.stringify(data));
       }
     } catch (e) {
+    }
+    
+    if(this.queue.length) {
+      this.queue.shift();
     }
 
     setTimeout(() => this.processQueue(), 1000);
