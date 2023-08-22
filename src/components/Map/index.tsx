@@ -34,7 +34,6 @@ const Map = () => {
       return null;
     }
 
-    // TODO: add working GEOJSON
     return (
       <GeoJson
         key={`region-${index}-${item.id}`}
@@ -49,9 +48,6 @@ const Map = () => {
         })}
       />
     );
-
-    // TODO: remove after upper todo
-    return null;
   }).filter(Boolean);
 
   return (

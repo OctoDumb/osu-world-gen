@@ -10,8 +10,8 @@ export type RegionRowProps = {
 };
 
 const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
-  const [removeByIndex, updateAtIndex] = useRegionsStore(
-    (state) => [state.removeByIndex, state.updateAtIndex],
+  const [removeByIndex, updateAtIndex, fetchById] = useRegionsStore(
+    (state) => [state.removeByIndex, state.updateAtIndex, state.fetchById],
     shallow
   );
 
@@ -21,25 +21,7 @@ const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
     });
   };
 
-  const fetchMap = async () => {
-    try {
-      updateAtIndex(index, { loading: true });
-      const response = await fetch(`/map/${item.id}`);
-      const raw = await response.json();
-
-      const data = {
-        type: "Feature",
-        geometry: raw.geometry,
-        properties: { id: item.id },
-      };
-
-      updateAtIndex(index, { data });
-    } catch (e) {
-      console.error(e);
-    } finally {
-      updateAtIndex(index, { loading: false });
-    }
-  };
+  const fetchMap = () => fetchById(item.id);
 
   return (
     <HStack className={styles.regionRow}>

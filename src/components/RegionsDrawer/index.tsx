@@ -24,8 +24,8 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
 }) => {
   const toast = useToast();
 
-  const [data, addEmpty] = useRegionsStore(
-    (state) => [state.data, state.addEmpty],
+  const [data, addEmpty, fetchAll] = useRegionsStore(
+    (state) => [state.data, state.addEmpty, state.fetchAll],
     shallow
   );
 
@@ -51,6 +51,7 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
     <Drawer
       isOpen={isOpen}
       placement={"right"}
+      size={"sm"}
       onClose={onClose}
     >
       <DrawerOverlay />
@@ -68,6 +69,13 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
           <VStack
             width={"100%"}
           >
+            <Button
+              width={"100%"}
+              colorScheme={"blue"}
+              onClick={fetchAll}
+            >
+              Fetch all
+            </Button>
             <HStack
               width={"100%"}
             >

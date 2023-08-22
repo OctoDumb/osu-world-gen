@@ -12,6 +12,16 @@ type RegionsStore = {
   addBulk: (ids: string[]) => void;
   removeByIndex: (index: number) => void;
   updateAtIndex: (index: number, updateData: Partial<RegionItem>) => void;
+  /**
+   * Fetch map data by id
+   * @param id - can be string osmId or index of element
+   */
+  fetchById: (id: string | number) => Promise<void>;
+  /**
+   * Fetch maps by all ids stored in data
+   * @param id - can be string osmId or index of element
+   */
+  fetchAll: () => Promise<void>;
 };
 
 export const useRegionsStore = create<RegionsStore>((set, get) => ({
@@ -28,7 +38,8 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
   addBulk: (ids: string[]) => {
     const { data } = get();
     const newElements = ids.map(id => ({
-      id, loading: false
+      id,
+      loading: false,
     }));
 
     set({ data: [...data, ...newElements] });
@@ -48,5 +59,42 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
 
     newData[index] = updatedElement;
     set({ data: newData });
+  },
+  fetchById: async (id) => {
+    const { data, updateAtIndex } = get();
+
+    let currentId: string;
+    let index: number;
+
+    if (typeof id === "number") {
+      currentId = data[id].id;
+      index = id;
+    } else {
+      currentId = id;
+      index = data.findIndex((item) => item.id === id);
+    }
+
+    try {
+      updateAtIndex(index, { loading: true });
+      const response = await fetch(`/map/${currentId}`);
+      const raw = await response.json();
+
+      const data = {
+        type: "Feature",
+        geometry: raw.geometry,
+        properties: { id: currentId },
+      };
+
+      updateAtIndex(index, { data });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      updateAtIndex(index, { loading: false });
+    }
+  },
+  fetchAll: async () => {
+    const { data, fetchById } = get();
+    const ids = data.map((item) => item.id).filter(Boolean);
+    await Promise.all(ids.map((id) => fetchById(id)));
   },
 }));
