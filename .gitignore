@@ -1,0 +1,15 @@
+# IDE
+.idea/
+.vscode/
+
+# packages
+node_modules/
+.yarn/
+
+# build
+build/
+tmp/
+temp/
+
+# envirement variables
+.env
