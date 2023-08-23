@@ -24,8 +24,8 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
 }) => {
   const toast = useToast();
 
-  const [data, addEmpty, fetchAll] = useRegionsStore(
-    (state) => [state.data, state.addEmpty, state.fetchAll],
+  const [data, addEmpty, fetchAll, removeAll] = useRegionsStore(
+    (state) => [state.data, state.addEmpty, state.fetchAll, state.removeAll],
     shallow
   );
 
@@ -67,13 +67,24 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
           <VStack
             width={"100%"}
           >
-            <Button
+            <HStack
               width={"100%"}
-              colorScheme={"blue"}
-              onClick={fetchAll}
             >
-              Fetch all
-            </Button>
+              <Button
+                width={"100%"}
+                colorScheme={"blue"}
+                onClick={fetchAll}
+              >
+                Fetch all
+              </Button>
+              <Button
+                width={"100%"}
+                colorScheme={"red"}
+                onClick={removeAll}
+              >
+                Remove all
+              </Button>
+            </HStack>
             <HStack
               width={"100%"}
             >

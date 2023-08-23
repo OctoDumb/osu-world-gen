@@ -22,6 +22,7 @@ type RegionsStore = {
    * @param id - can be string osmId or index of element
    */
   fetchAll: () => Promise<void>;
+  removeAll: () => void;
 };
 
 export const useRegionsStore = create<RegionsStore>((set, get) => ({
@@ -96,5 +97,8 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
     const { data, fetchById } = get();
     const ids = data.map((item) => item.id).filter(Boolean);
     await Promise.all(ids.map((id) => fetchById(id)));
+  },
+  removeAll: () => {
+    set({ data: [] });
   },
 }));
