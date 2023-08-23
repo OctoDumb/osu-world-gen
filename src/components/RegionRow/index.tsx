@@ -18,6 +18,7 @@ const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     updateAtIndex(index, {
       id: e.target.value,
+      data: null,
     });
   };
 
