@@ -6,8 +6,7 @@ import styles from "./index.module.scss";
 import "./index.scss";
 import RegionsDrawer from "@components/RegionsDrawer";
 import RegionInputModal from "@components/RegionInput";
-import { useHoverStore } from "@components/store/hoverStore";
-import HoverId from "./HoverId";
+import HoverId from "./components/HoverId";
 
 const App = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
