@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC } from "react";
-import { Button, HStack, Input } from "@chakra-ui/react";
+import { Button, HStack, Input, Tooltip } from "@chakra-ui/react";
 import { RegionItem, useRegionsStore } from "@components/store";
 import { shallow } from "zustand/shallow";
 import styles from "./index.module.scss";
@@ -23,14 +23,30 @@ const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
 
   const fetchMap = () => fetchById(item.id);
 
-  return (
-    <HStack className={styles.regionRow}>
+  const renderInput = () => {
+    const invalid = item.data && !item.data.properties.names["ISO3166-2"];
+    const input = (
       <Input
+        errorBorderColor="yellow.400"
+        isInvalid={invalid}
         type={"text"}
         placeholder={"Region ID"}
         onChange={onChange}
         value={item.id}
       />
+    );
+    if(!invalid)
+      return input;
+    return (
+      <Tooltip hasArrow placement='left' label="Missing ISO3166-2">
+        {input}
+      </Tooltip>
+    )
+  }
+
+  return (
+    <HStack className={styles.regionRow}>
+      {renderInput()}
       <Button
         colorScheme={!item.data ? "green" : "blue"}
         isLoading={item.loading}
