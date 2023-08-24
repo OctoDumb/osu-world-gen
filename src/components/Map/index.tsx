@@ -38,7 +38,7 @@ const Region: FC<RegionProps> = memo(({ item }) => {
       key={`geojson-${item.id}`}
       data={item.data}
       style={(_) => ({
-        fillColor: "#4FC0FF",
+        fillColor: item.loading ? "#dfff4f" : "#4FC0FF",
         weight: 2,
         opacity: 0.5,
         color: "white",
