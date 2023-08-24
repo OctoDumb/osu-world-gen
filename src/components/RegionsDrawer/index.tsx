@@ -45,6 +45,8 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
     })
   };
 
+  const refetch = data.every(v => v.data)
+
   return (
     <Drawer
       isOpen={isOpen}
@@ -73,9 +75,9 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
               <Button
                 width={"100%"}
                 colorScheme={"blue"}
-                onClick={fetchAll}
+                onClick={() => fetchAll(refetch)}
               >
-                {data.every(v => v.data) ? "Refetch all" : "Fetch all"}
+                {refetch ? "Refetch all" : "Fetch all"}
               </Button>
               <Button
                 width={"100%"}
