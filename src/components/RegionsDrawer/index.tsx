@@ -75,7 +75,7 @@ const RegionsDrawer: FC<RegionsDrawerProps> = ({
                 colorScheme={"blue"}
                 onClick={fetchAll}
               >
-                Fetch all
+                {data.every(v => v.data) ? "Refetch all" : "Fetch all"}
               </Button>
               <Button
                 width={"100%"}

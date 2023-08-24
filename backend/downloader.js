@@ -38,7 +38,7 @@ module.exports = class Downloader {
     setTimeout(() => this.processQueue(), 1000);
   }
 
-  async get(id) {
+  async get(id, redl = false) {
     if(!fs.existsSync(path.join("./cache", `${id}.json`))) {
       if(this.queue.includes(id)) {
         await sleep(200);
@@ -47,8 +47,11 @@ module.exports = class Downloader {
         this.queue.push(id);
         return this.get(id);
       }
-    } else {
-      return fs.readFileSync(path.join("./cache", `${id}.json`));
+    } else if(redl) {
+      fs.unlinkSync(path.join("./cache", `${id}.json`));
+      return this.get(id, redl);
     }
+    
+    return fs.readFileSync(path.join("./cache", `${id}.json`));
   }
 }

@@ -8,8 +8,8 @@ const app = express();
 
 app.use(cors());
 
-app.get('/map/:id', async (req, res) => {
-  let map = await dl.get(req.params.id);
+app.get('/map/:id/:redl', async (req, res) => {
+  let map = await dl.get(req.params.id, Boolean(req.params.redl));
   res.setHeader("Content-Type", "application/json").send(map);
 });
 

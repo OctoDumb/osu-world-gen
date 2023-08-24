@@ -22,7 +22,7 @@ const RegionRow: FC<RegionRowProps> = ({ index, item }) => {
     });
   };
 
-  const fetchMap = () => fetchById(item.id);
+  const fetchMap = () => fetchById(item.id, !!item.data);
 
   const renderInput = () => {
     const invalid = item.data && !item.data.properties.names["ISO3166-2"];

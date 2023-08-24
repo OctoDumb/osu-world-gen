@@ -16,7 +16,7 @@ type RegionsStore = {
    * Fetch map data by id
    * @param id - can be string osmId or index of element
    */
-  fetchById: (id: string | number) => Promise<void>;
+  fetchById: (id: string | number, redl?: boolean) => Promise<void>;
   /**
    * Fetch maps by all ids stored in data
    * @param id - can be string osmId or index of element
@@ -61,7 +61,7 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
     newData[index] = updatedElement;
     set({ data: newData });
   },
-  fetchById: async (id) => {
+  fetchById: async (id, redl = false) => {
     const { data, updateAtIndex } = get();
 
     let currentId: string;
@@ -77,7 +77,7 @@ export const useRegionsStore = create<RegionsStore>((set, get) => ({
 
     try {
       updateAtIndex(index, { loading: true });
-      const response = await fetch(`/map/${currentId}`);
+      const response = await fetch(`/map/${currentId}/${Number(redl)}`);
       const raw = await response.json();
 
       const data = {
